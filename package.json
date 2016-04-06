@@ -1,0 +1,47 @@
+{
+  "name": "url-shortener",
+  "version": "0.0.1",
+  "description": "Webserver to shorten url and serve pages",
+  "author": "@philmod",
+  "main": "index.js",
+  "engines": {
+    "node": "5.1.0",
+    "npm": "3.3.12"
+  },
+  "dependencies": {
+    "async": "^0.9.0",
+    "body-parser": "^1.12.2",
+    "config": "^1.16.0",
+    "cors": "^2.5.3",
+    "errorhandler": "^1.4.0",
+    "express": "^4.12.2",
+    "express-server-status": "*",
+    "form-data": "^0.2.0",
+    "lodash": "^3.6.0",
+    "morgan": "^1.7.0",
+    "querystring": "^0.2.0"
+  },
+  "devDependencies": {
+    "babel-eslint": "^4.1.6",
+    "chai": "*",
+    "chance": "^0.8.0",
+    "cheerio": "^0.19.0",
+    "eslint": "^1.9.0",
+    "eslint-config-opencollective": "^1.1.0",
+    "eslint-plugin-react": "^4.2.3",
+    "istanbul": "0.3.2",
+    "jsxhint": "^0.15.1",
+    "mocha": "^2.4.5",
+    "mocha-circleci-reporter": "0.0.1",
+    "nock": "^2.2.0",
+    "sequelize-cli": "^1.4.0",
+    "sinon": "1.10.3",
+    "supertest": ""
+  },
+  "scripts": {
+    "test": "NODE_ENV=test npm run hint && NODE_ENV=test mocha test",
+    "circleci": "NODE_ENV=circleci npm run hint && mocha --reporter mocha-circleci-reporter --reporter-options mochaFile=$CIRCLE_TEST_REPORTS/junit/junit.xml test",
+    "start": "npm run hint && node .",
+    "hint": "eslint '**/*.js' --quiet"
+  }
+}
