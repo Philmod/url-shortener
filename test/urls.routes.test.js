@@ -1,6 +1,7 @@
 var app = require('../index');
 var expect = require('chai').expect;
 var request = require('supertest');
+var models = app.set('models');
 
 describe('urls.routes.test.js', () => {
 
@@ -35,6 +36,38 @@ describe('urls.routes.test.js', () => {
           expect(e).to.not.exist;
           var page = res.text;
           expect(page).to.contain('http://localhost:3070/');
+          done();
+        });
+    });
+
+  });
+
+  describe('GET /:id', () => {
+
+    var existingUrl = 'https://canary.is';
+    var existingId = 'abcdef';
+
+    before(done => {
+      models.Url.insert(existingUrl, existingId, done);
+    });
+
+    it('responds with a 404 if id does not exist', (done) => {
+      request(app)
+        .get('/12345')
+        .expect(404)
+        .end((e, res) => {
+          expect(e).to.not.exist;
+          done();
+        });
+    });
+
+    it('redirects if id exists', (done) => {
+      request(app)
+        .get('/' + existingId)
+        .expect(302)
+        .end((e, res) => {
+          expect(e).to.not.exist;
+          expect(res.text).to.contain('Redirecting to ' + existingUrl);
           done();
         });
     });

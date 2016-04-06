@@ -1,4 +1,5 @@
 const serverStatus = require('express-server-status');
+const errorHandler = require('./middlewares/error_handler');
 
 module.exports = (app) => {
 
@@ -18,5 +19,15 @@ module.exports = (app) => {
    */
   app.get('/', urls.index);
   app.post('/url', urls.insert);
+
+  /**
+   * Redirect.
+   */
+  app.get('/:id', urls.redirect);
+
+  /**
+   * Error handler.
+   */
+  app.use(errorHandler);
 
 }

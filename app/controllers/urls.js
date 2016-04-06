@@ -4,8 +4,9 @@ const config = require('config');
 
 module.exports = (app) => {
 
-  var models = app.set('models');
-  var Url = models.Url;
+  const errors = app.errors;
+  const models = app.set('models');
+  const Url = models.Url;
 
   const index = (req, res, next) => {
     res.render('index.hbs');
@@ -30,7 +31,7 @@ module.exports = (app) => {
   const _insert = (url, callback) => {
     getRandomUniqueId((err, id) => {
       var shortUrl = constructUrl(id);
-      models.Url.insert(url, id, (err) => {
+      Url.insert(url, id, (err) => {
         callback(err, shortUrl);
       });
     });
@@ -48,8 +49,18 @@ module.exports = (app) => {
     });
   }
 
+  const redirect = (req, res, next) => {
+    var id = req.params.id;
+    Url.getById(id, (err, url) => {
+      if (err) return callback(err);
+      if (!url) return next(new errors.NotFound('This short url does not exist'));
+      else return res.redirect(url);
+    });
+  }
+
   return {
     index: index,
-    insert: insert
+    insert: insert,
+    redirect: redirect
   }
 }
