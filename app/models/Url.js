@@ -3,21 +3,26 @@ module.exports = app => {
   const errors = app.errors;
   var memory = {}
 
-  const insert = (url, short, callback) => {
+  const insert = (url, id, callback) => {
     var error;
-    if (memory[short]) {
-      if (memory[short] === url) {
-        error = new errors.ConflictError('This url has be shortened already.');
+    if (memory[id]) {
+      if (memory[id] === url) {
+        error = new errors.ConflictError('This url has be shortUrlened already.');
       } else {
         error = new errors.ConflictError('Collision');
       }
     } else {
-      memory[short] = url;
+      memory[id] = url;
     }
-    return callback(error);
+    return callback(error, id);
+  }
+
+  const getById = (id, callback) => {
+    return callback(null, memory[id]);
   }
 
   return {
-    insert: insert
+    insert: insert,
+    getById: getById
   }
 }

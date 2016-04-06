@@ -22,4 +22,23 @@ describe('urls.routes.test.js', () => {
 
   });
 
+  describe('POST /url', () => {
+
+    it('responds with a web page containing the shortened url', (done) => {
+      request(app)
+        .post('/url')
+        .send({
+          url: 'https://google.com'
+        })
+        .expect(200)
+        .end((e, res) => {
+          expect(e).to.not.exist;
+          var page = res.text;
+          expect(page).to.contain('http://localhost:3070/');
+          done();
+        });
+    });
+
+  });
+
 });

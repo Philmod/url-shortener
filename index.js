@@ -1,5 +1,5 @@
 const express = require('express');
-const _ = require('lodash');
+const config = require('config');
 
 var NODE_ENV = process.env.NODE_ENV;
 const app = express();
@@ -9,20 +9,14 @@ if (!NODE_ENV) {
 }
 
 app.errors = require('./app/lib/errors');
-
 require('./app/lib/express')(app);
-
 app.set('models', require('./app/models')(app));
-
 app.set('controllers', require('./app/controllers')(app));
-
 require('./app/routes')(app);
 
 if (app.set('env') !== 'test' && app.set('env') !== 'circleci') {
-  /**
-   * Start server
-   */
- const port = process.env.PORT || 3070;
+  // Start server
+ const port = config.port;
   const server = app.listen(port, () => {
     console.log('url-shortener listening at http://localhost:%s in %s environment.', server.address().port, app.set('env'));
   });

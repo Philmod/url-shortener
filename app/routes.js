@@ -17,5 +17,6 @@ module.exports = (app) => {
    * Main web page to shorten url.
    */
   app.get('/', urls.index);
+  app.post('/url', urls.insert);
 
 }

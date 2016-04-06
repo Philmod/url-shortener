@@ -1,11 +1,12 @@
 # url-shortener
 Webserver to shorten url and redirect pages
 
-
-## Todo
+## Done
 + Webserver which responds to a status page [GET /status]
 + Web page with a form to enter a full url [GET /]
-- Route to submit a new url [POST /url]
++ Route to submit a new url [POST /url]
+
+## Todo
 - Route to redirect from shorten url to full url [GET /:id]
 - Admin page with the list of all shortened [GET /admin]
 - Change the local memory into a persistent one

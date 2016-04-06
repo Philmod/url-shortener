@@ -1,9 +1,16 @@
-var bodyParser = require('body-parser');
-var cors = require('cors');
-var errorhandler = require('errorhandler');
-var morgan = require('morgan');
+const path = require('path');
+const exphbs = require('express-handlebars');
+const bodyParser = require('body-parser');
+const cors = require('cors');
+const errorhandler = require('errorhandler');
+const morgan = require('morgan');
 
 module.exports = function(app) {
+
+  // Views rendering.
+  app.engine('hbs', exphbs());
+  app.set('view engine', 'hbs');
+  app.set('views', path.join(__dirname, '../views'));
 
   // Body parser.
   app.use(bodyParser.json());
