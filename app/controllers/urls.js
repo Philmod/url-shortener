@@ -1,8 +1,8 @@
 const path = require('path');
 const uuid = require('node-uuid');
-const config = require('config');
+const urlLib = require('../lib/url');
 
-module.exports = (app) => {
+module.exports = app => {
 
   const errors = app.errors;
   const models = app.set('models');
@@ -28,9 +28,10 @@ module.exports = (app) => {
     return url;
   }
 
-  const _insert = (url, callback) => {
+  const _insertFullUrl = (url, callback) => {
     getRandomUniqueId((err, id) => {
-      var shortUrl = constructUrl(id);
+      if (err) return callback(err);
+      var shortUrl = urlLib.constructShortUrl(id);
       Url.insert(url, id, (err) => {
         callback(err, shortUrl);
       });
@@ -39,7 +40,7 @@ module.exports = (app) => {
 
   const insert = (req, res, next) => {
     var url = req.body.url;
-    _insert(url, (err, shortUrl) => {
+    _insertFullUrl(url, (err, shortUrl) => {
       if (err) return next(err);
       else {
         res.render('shorten_success.hbs', {
@@ -54,7 +55,7 @@ module.exports = (app) => {
     Url.getById(id, (err, url) => {
       if (err) return callback(err);
       if (!url) return next(new errors.NotFound('This short url does not exist'));
-      else return res.redirect(url);
+      else return res.redirect(url.fullUrl);
     });
   }
 

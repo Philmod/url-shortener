@@ -1,3 +1,5 @@
+const urlLib = require('../lib/url');
+
 module.exports = app => {
 
   const errors = app.errors;
@@ -6,13 +8,18 @@ module.exports = app => {
   const insert = (url, id, callback) => {
     var error;
     if (memory[id]) {
-      if (memory[id] === url) {
+      if (memory[id].fullUrl === url) {
         error = new errors.ConflictError('This url has be shortUrlened already.');
       } else {
         error = new errors.ConflictError('Collision');
       }
     } else {
-      memory[id] = url;
+      memory[id] = {
+        id: id,
+        shortUrl: urlLib.constructShortUrl(id),
+        fullUrl: url,
+        views: 0
+      };
     }
     return callback(error, id);
   }
@@ -21,8 +28,13 @@ module.exports = app => {
     return callback(null, memory[id]);
   }
 
+  const getAll = (callback) => {
+    return callback(null, memory)
+  }
+
   return {
     insert: insert,
-    getById: getById
+    getById: getById,
+    getAll: getAll
   }
 }

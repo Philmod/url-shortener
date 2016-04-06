@@ -1,5 +1,10 @@
 {
   "protocol": "http",
   "domain": "localhost",
-  "port": 3070
+  "port": 3070,
+  "secret": "supersecret",
+  "admin": {
+    "username": "admin",
+    "password": "password"
+  }
 }

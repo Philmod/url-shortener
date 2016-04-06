@@ -8,6 +8,7 @@ module.exports = (app) => {
    */
   const Controllers = app.set('controllers');
   const urls = Controllers.urls;
+  const admin = Controllers.admin;
 
   /**
    * Status.
@@ -19,6 +20,13 @@ module.exports = (app) => {
    */
   app.get('/', urls.index);
   app.post('/url', urls.insert);
+
+  /**
+   * Admin page.
+   */
+  app.get('/login', admin.login);
+  app.post('/login', admin.loginSubmitted);
+  app.get('/admin', admin.basicAuth, admin.index);
 
   /**
    * Redirect.

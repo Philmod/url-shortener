@@ -1,4 +1,9 @@
 {
   "protocol": "https",
-  "domain": "url-shortner.canary.is"
+  "domain": "url-shortner.canary.is",
+  "secret": "9143cbcfe975d30c1c601a6adf52940b",
+  "admin": {
+    "username": "philmod",
+    "password": "f235924b7c314c596cdb498e3a7e3b2b"
+  }
 }

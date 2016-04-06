@@ -4,6 +4,8 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const errorhandler = require('errorhandler');
 const morgan = require('morgan');
+const session = require('express-session');
+const config = require('config');
 
 module.exports = function(app) {
 
@@ -11,6 +13,13 @@ module.exports = function(app) {
   app.engine('hbs', exphbs());
   app.set('view engine', 'hbs');
   app.set('views', path.join(__dirname, '../views'));
+
+  // Sessions.
+  app.use(session({
+    secret: config.secret,
+    resave: false,
+    saveUninitialized: true
+  }))
 
   // Body parser.
   app.use(bodyParser.json());
