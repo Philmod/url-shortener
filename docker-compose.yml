@@ -14,12 +14,11 @@ services:
     restart: always
     build: .
     ports:
-      - "8080:3070"
+      - "3070:3070"
     volumes:
       - .:/code
     depends_on:
       - dynamodb
+      - redis
     environment:
       NODE_ENV: development
-      DYNAMO: dynamodb
-      REDIS_URL: redis://redis
