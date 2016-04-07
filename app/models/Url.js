@@ -137,10 +137,18 @@ module.exports = app => {
     });
   }
 
+  /**
+   * Clear local cache.
+   */
+  const clearCache = () => {
+    idToUrl = new Cache();
+  }
+
   return {
     insert: insert,
     getById: getById,
     getAll: getAll,
-    incrementView: incrementView
+    incrementView: incrementView,
+    clearCache: clearCache
   }
 }

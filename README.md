@@ -45,6 +45,7 @@ Or just go to the admin page.
 + Route to redirect from shorten url to full url [GET /:id]
 + Admin page with the list of all shortened [GET /admin]
 + Change the local memory into a persistent one (DynamoDB)
++ Local cache in front of the database
 
 ## Debates
 ### Unique short url by full url
@@ -63,7 +64,8 @@ Another question is : "What about http:// vs https://"? Do they have a different
 - Circle CI
 - Docker
 - Add a expire option
-- If the service is very popular, and there is no more free unique id, increase the number of characters for this id
+- If the service is very popular, and there is no more free unique id, increase the number of characters of the id
+- Right now, a new id is created randomly; it will take more and more time when the free space will reduce
 - Use a Bloom Filter to check for the existence of a given id
-- Buffer the incrementView calls (for example using Redis), and so update one entry once for many views
+- Buffer the incrementView calls (Redis), and so update one entry once for many views
 - Stub the database's client for the tests

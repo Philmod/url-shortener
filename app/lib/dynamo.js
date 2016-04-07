@@ -8,7 +8,7 @@ module.exports = {
     var obj = {};
     _.forOwn(doc, function(value, key) {
       _.forOwn(value, function(value, type) {
-        obj[key] = value;
+        obj[key] = (type === 'N') ? parseInt(value) : value;
       });
     });
     return obj;
