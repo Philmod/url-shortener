@@ -13,5 +13,9 @@
   },
   "database": {
     "tableName": "urls"
+  },
+  "redis": {
+    "host": "localhost",
+    "port": 6379
   }
 }
