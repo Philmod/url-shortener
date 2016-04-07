@@ -1,3 +1,4 @@
+const config = require('config');
 const path = require('path');
 const exphbs = require('express-handlebars');
 const bodyParser = require('body-parser');
@@ -5,7 +6,7 @@ const cors = require('cors');
 const errorhandler = require('errorhandler');
 const morgan = require('morgan');
 const session = require('express-session');
-const config = require('config');
+const RedisStore = require('connect-redis')(session);
 
 module.exports = function(app) {
 
@@ -15,11 +16,15 @@ module.exports = function(app) {
   app.set('views', path.join(__dirname, '../views'));
 
   // Sessions.
+  var options = {
+    client: app.redis
+  };
   app.use(session({
+    store: new RedisStore(options),
     secret: config.secret,
     resave: false,
     saveUninitialized: true
-  }))
+  }));
 
   // Body parser.
   app.use(bodyParser.json());

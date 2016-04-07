@@ -1,6 +1,8 @@
 # url-shortener
 Webserver to shorten url and redirect pages
 
+![Circle CI](https://circleci.com/gh/Philmod/url-shortener.svg?style=svg&circle-token=a9fd81d770ffa424af792fc21a375c4b0f253e7b)
+
 ## How does that work?
 ### Overview of the service
 Go to the root page and enter an url to shorten:
@@ -39,6 +41,10 @@ The tests are under `./test/`.
 ```
 brew install dynamodb-local
 ```
+- Install Redis locally
+```
+brew install redis
+```
 - Install Node.js and NPM, by downloading and installing from https://nodejs.org/en/
 - Install Node.js modules for this project
 ```
@@ -52,6 +58,10 @@ To run them:
 ```
 npm test
 ```
+
+### Circle CI
+Circle CI is configured and will run all the tests whenever a commit is pushed to this repository.
+It could be used to deploy automatically a staging version for testing.
 
 ## Run server
 ```
@@ -78,6 +88,7 @@ Or just go to the admin page.
 + API: get information about an url [POST /api/urls/:id]
 + API: get all urls information [GET /api/urls]
 + Circle CI
++ Make the admin session persistent and available across many servers/thread (Redis)
 
 ## Debates
 ### Unique short url by full url
@@ -89,9 +100,33 @@ Otherwise, the code should check if a key has already been associated to that ur
 
 Another open question would be : "What about `http://` vs `https://`"? Do they have a different short url?
 
+### More 100.000 users shortening 5urls/day!
+#### Server load
+Let's assume this app is hosted on EC2. The safest setup would be to have a minimum of 2 instances, behind an ELB. We could set up an Auto Scaling Group that would creates more instances whenever the existing ones overpass a CPU threshold. It could also scale down during lower traffic time.
+
+If there are so many new urls created every day, we can assume we are going to have a way bigger traffic in redirection. For this problem, we need a better caching system than the one I implemented within the app.
+There are many options, here are the ones I'm familiar with:
+- Cloudfront: as a AWS service, you pay for what you use
+- Varnish: there is more devops work to keep these up and running
+The problem with a caching outside of the application is that we loose our ability to keep track of the statistics per url as we do now.
+
+#### Database
+DynamoDB should be a perfect candidate, as it provides a linear scaling.
+
+But we would need to adjust the Provisioned Throughput (read/write). The read one should be amortized by the caching system, but the write needs to be increased.
+
+It's also very important that all the partitions get equally populated, with a good partition key. This shouldn't be an issue as it's a random hash right now.
+
+If we decide to avoid the external caching in order to keep the number of views per url, we should postpone the update of views number in the database. A good solution would be to gather these updates in Redis, and a worker would randomly get the new changes (a whole bunch of new views per url) and update the database.
+
+#### Id
+The `id` is made of 6 characters, meaning there are 2.176.782.336 combinations. At this rate of 500.000 urls a day, that gives us 11 years before all the `id` are used. When that happens, we could increase to 7 characters, giving us ... 430 years.
+
+The problem is more the way we randomly choose a new id, check in the database if unique, if not it tries again. When more and more ids are used, there are more and more chance of collision and so the function will take more time to get an unused one.
+A bloom filter would be probably good to faster this process.
+
 ## Todo
 - Deploy a live demo on AWS
-- Make the admin session persistent and available across many servers/thread (Redis)
 - Logout
 - Docker
 - API: restrict the getAll urls with the username/password

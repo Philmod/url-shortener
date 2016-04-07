@@ -1,4 +1,5 @@
 const AWS = require('aws-sdk');
+const redis = require('redis');
 const config = require('config');
 
 module.exports = app => {
@@ -13,5 +14,13 @@ module.exports = app => {
   };
 
   app.dynamodb = new AWS.DynamoDB(options);
+
+  /**
+   * Redis.
+   */
+  app.redis = redis.createClient(config.redis.port, config.redis.host);
+  app.redis.on('error', err => {
+    console.error('Redis error ' + err);
+  });
 
 };
