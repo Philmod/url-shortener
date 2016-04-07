@@ -32,7 +32,7 @@
   },
   "scripts": {
     "test": "NODE_ENV=test npm run hint && NODE_ENV=test mocha test",
-    "circleci": "NODE_ENV=circleci npm run hint && mocha --reporter mocha-circleci-reporter --reporter-options mochaFile=$CIRCLE_TEST_REPORTS/junit/junit.xml test",
+    "circleci": "NODE_ENV=test npm run hint && mocha --reporter mocha-circleci-reporter --reporter-options mochaFile=$CIRCLE_TEST_REPORTS/junit/junit.xml test",
     "start": "npm run hint && node .",
     "hint": "eslint '**/*.js' --quiet",
     "dynamo:createLocalTable": "node scripts/dynamoCreateLocalTable.js",

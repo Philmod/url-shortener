@@ -7,6 +7,7 @@ test:
   pre:
     - "java -Xms1024m -Xmx1024m -Djava.library.path=~/DynamoDBLocal/DynamoDBLocal_lib -jar ~/DynamoDBLocal/DynamoDBLocal.jar":
         background: true
+    - npm run dynamo:createLocalTable
 machine:
   post:
     - npm install mocha@2.4.5 -g
