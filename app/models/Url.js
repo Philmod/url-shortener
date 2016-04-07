@@ -5,6 +5,8 @@ const urlLib = require('../lib/url');
 const dynamoLib = require('../lib/dynamo');
 const _ = require('lodash');
 
+const NB_CHAR = 6; // Size of the unique id
+
 /**
  * Local cache.
  */
@@ -71,7 +73,7 @@ module.exports = app => {
    * Get a unique id.
    */
   const getRandomUniqueId = callback => {
-    var id = uuid.v1().substr(0, 6);
+    var id = uuid.v1().substr(0, NB_CHAR);
     getById(id, (err, url) => {
       if (err) return callback(err);
       if (!url) return callback(null, id);
