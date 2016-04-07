@@ -93,6 +93,7 @@ Or just go to the admin page.
 + API: get all urls information [GET /api/urls]
 + Circle CI
 + Make the admin session persistent and available across many servers/thread (Redis)
++ API: restrict the getAll urls with the username/password
 
 ## Debates
 ### Unique short url by full url
@@ -133,7 +134,6 @@ A bloom filter would be probably good to faster this process.
 - Deploy a live demo on AWS
 - Logout
 - Docker
-- API: restrict the getAll urls with the username/password
 - Paginate the admin page, not to show all the urls
 - If the service is very popular, and there is no more free unique id, increase the number of characters required for an id
 - Right now, a new id is created randomly; it will take more and more time when the free space will reduce

@@ -4,6 +4,7 @@ const request = require('supertest');
 const async = require('async');
 const models = app.set('models');
 const utils = require('../test/utils.js');
+const config = require('config');
 
 const url = 'http://www.superlongdomain.com/plus/a/really/long/path?my=shortner';
 const id = 'abcde';
@@ -74,9 +75,31 @@ describe('api.routes.test.js', () => {
       }, done);
     });
 
+    it('responds an error if not authenticated', (done) => {
+      request(app)
+        .get('/api/urls')
+        .expect(401)
+        .end((e, res) => {
+          expect(e).to.not.exist;
+          done();
+        });
+    });
+
+    it('responds an error if bad credentials', (done) => {
+      request(app)
+        .get('/api/urls')
+        .auth(config.admin.username, 'nope')
+        .expect(401)
+        .end((e, res) => {
+          expect(e).to.not.exist;
+          done();
+        });
+    });
+
     it('responds with all the url objects', (done) => {
       request(app)
         .get('/api/urls')
+        .auth(config.admin.username, config.admin.password)
         .expect(200)
         .end((e, res) => {
           expect(e).to.not.exist;
