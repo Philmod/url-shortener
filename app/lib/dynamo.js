@@ -6,12 +6,23 @@ module.exports = {
   unwrapDocument: (doc) => {
     if (!doc) return;
     var obj = {};
-    _.forOwn(doc, function(value, key) {
-      _.forOwn(value, function(value, type) {
+    _.forOwn(doc, (value, key) => {
+      _.forOwn(value, (value, type) => {
         obj[key] = (type === 'N') ? parseInt(value) : value;
       });
     });
     return obj;
+  },
+
+  wrapObject: (obj, model) => {
+    if (!obj) return;
+    var doc = {};
+    _.forOwn(obj, (value, key) => {
+      var type = model[key];
+      doc[key] = {};
+      doc[key][type] = value.toString();
+    });
+    return doc;
   }
 
 }

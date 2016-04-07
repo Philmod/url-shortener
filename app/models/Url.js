@@ -8,6 +8,17 @@ const _ = require('lodash');
 const NB_CHAR = 6; // Size of the unique id
 
 /**
+ * Url dynamo model [types].
+ */
+var dynamoModel = {
+  date: 'S',
+  id: 'S',
+  viewCount: 'N',
+  shortUrl: 'S',
+  fullUrl: 'S'
+};
+
+/**
  * Local cache.
  */
 class Cache {
@@ -50,13 +61,7 @@ module.exports = app => {
         viewCount: 0
       };
       var params = _.extend(_.cloneDeep(dynamoParams), {
-        Item: {
-          id: {S: data.id},
-          shortUrl: {S: data.shortUrl},
-          fullUrl: {S: data.fullUrl},
-          date: {S: data.date},
-          viewCount: {N: data.viewCount.toString()}
-        }
+        Item: dynamoLib.wrapObject(data, dynamoModel)
       });
 
       app.dynamodb.putItem(params, (err) => {
