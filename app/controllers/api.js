@@ -8,6 +8,9 @@ module.exports = app => {
   const models = app.set('models');
   const Url = models.Url;
 
+  /**
+   * Given an url, return a short version.
+   */
   const shortenUrl = (req, res, next) => {
     var url = req.body.url;
     Url.shortenAndInsert(url, (err, shortUrl) => {
@@ -16,6 +19,9 @@ module.exports = app => {
     });
   }
 
+  /**
+   * Get information about a url, given the id.
+   */
   const getById = (req, res, next) => {
     var id = req.params.id;
     Url.getById(id, (err, data) => {
@@ -25,6 +31,10 @@ module.exports = app => {
     });
   }
 
+  /**
+   * Get all the urls.
+   * TODO: Pagination.
+   */
   const getAll = (req, res, next) => {
     Url.getAll((err, data) => {
       if (err) return next(err);

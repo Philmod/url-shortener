@@ -7,10 +7,16 @@ module.exports = app => {
   const models = app.set('models');
   const Url = models.Url;
 
+  /**
+   * Return the main page to enter an url.
+   */
   const index = (req, res, next) => {
     res.render('index.hbs');
   };
 
+  /**
+   * Given an url, return a short version.
+   */
   const insert = (req, res, next) => {
     var url = req.body.url;
     Url.shortenAndInsert(url, (err, shortUrl) => {
@@ -23,6 +29,9 @@ module.exports = app => {
     });
   }
 
+  /**
+   * Given a short url, redirect to the full page.
+   */
   const redirect = (req, res, next) => {
     var id = req.params.id;
     Url.getById(id, (err, url) => {
