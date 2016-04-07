@@ -7,10 +7,11 @@ module.exports = app => {
    * AWS Dynamo.
    */
   AWS.config.update(config.get('aws'));
-  var options = {};
-  if (config.database.endpoint) {
-    options.endpoint = config.database.endpoint;
-  }
+  var dynamoAddr = process.env.DYNAMODB_PORT_8000_TCP_ADDR;
+  var options = {
+    endpoint: (dynamoAddr) ? ['http://', dynamoAddr, ':8000'].join('') : config.database.endpoint
+  };
+
   app.dynamodb = new AWS.DynamoDB(options);
 
 };

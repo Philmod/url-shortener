@@ -1,0 +1,25 @@
+version: '2'
+services:
+  dynamodb:
+    image: ryanratcliff/dynamodb
+    hostname: dynamodb
+    restart: always
+    ports:
+      - "8000:8000"
+  redis:
+    image: redis
+  url-shortener:
+    image: philmod/url-shortener
+    hostname: url-shortener
+    restart: always
+    build: .
+    ports:
+      - "8080:3070"
+    volumes:
+      - .:/code
+    depends_on:
+      - dynamodb
+    environment:
+      NODE_ENV: development
+      DYNAMO: dynamodb
+      REDIS_URL: redis://redis

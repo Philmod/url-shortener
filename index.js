@@ -15,6 +15,14 @@ app.set('models', require('./app/models')(app));
 app.set('controllers', require('./app/controllers')(app));
 require('./app/routes')(app);
 
+///// TEMP /////
+require('lodash').forOwn(process.env, (value, key) => {
+  if (key.indexOf('npm') == -1) {
+      console.log('ENV variable: ', key, value);
+  }
+});
+////////////////
+
 if (app.set('env') !== 'test' && app.set('env') !== 'circleci') {
   // Start server
  const port = config.port;
