@@ -24,4 +24,4 @@ COPY . /usr/src/url-shortener
 
 EXPOSE 3070
 
-CMD [ "npm", "start" ]
+CMD [ "npm", "run", "dev" ]

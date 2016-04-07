@@ -12,13 +12,13 @@ module.exports = app => {
   var options = {
     endpoint: (dynamoAddr) ? ['http://', dynamoAddr, ':8000'].join('') : config.database.endpoint
   };
-
   app.dynamodb = new AWS.DynamoDB(options);
 
   /**
    * Redis.
    */
-  app.redis = redis.createClient(config.redis.port, config.redis.host);
+  var redisHost = process.env.REDIS_PORT_6379_TCP_ADDR || config.redis.host;
+  app.redis = redis.createClient(config.redis.port, redisHost);
   app.redis.on('error', err => {
     console.error('Redis error ' + err);
   });
