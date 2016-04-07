@@ -55,7 +55,10 @@ module.exports = app => {
     Url.getById(id, (err, url) => {
       if (err) return callback(err);
       if (!url) return next(new errors.NotFound('This short url does not exist'));
-      else return res.redirect(url.fullUrl);
+      else {
+        Url.incrementView(id, 1); // Async
+        return res.redirect(url.fullUrl);
+      }
     });
   }
 

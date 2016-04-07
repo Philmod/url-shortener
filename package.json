@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "async": "^0.9.0",
+    "aws-sdk": "^2.3.1",
     "body-parser": "^1.12.2",
     "config": "^1.16.0",
     "cors": "^2.5.3",
@@ -46,6 +47,9 @@
     "test": "NODE_ENV=test npm run hint && NODE_ENV=test mocha test",
     "circleci": "NODE_ENV=circleci npm run hint && mocha --reporter mocha-circleci-reporter --reporter-options mochaFile=$CIRCLE_TEST_REPORTS/junit/junit.xml test",
     "start": "npm run hint && node .",
-    "hint": "eslint '**/*.js' --quiet"
+    "hint": "eslint '**/*.js' --quiet",
+    "dynamo:createLocalTable": "node scripts/dynamoCreateLocalTable.js",
+    "dynamo:deleteLocalTable": "node scripts/dynamoDeleteLocalTable.js",
+    "dynamo:getAllLocalData": "node scripts/dynamoGetAllLocal.js"
   }
 }

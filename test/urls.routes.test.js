@@ -1,9 +1,14 @@
-var app = require('../index');
-var expect = require('chai').expect;
-var request = require('supertest');
-var models = app.set('models');
+const app = require('../index');
+const expect = require('chai').expect;
+const request = require('supertest');
+const models = app.set('models');
+const utils = require('../test/utils.js');
 
 describe('urls.routes.test.js', () => {
+
+  before(done => {
+    utils.cleanAllUrlsTable(done);
+  });
 
   describe('GET /', () => {
 
@@ -38,32 +43,6 @@ describe('urls.routes.test.js', () => {
           expect(page).to.contain('http://localhost:3070/');
           done();
         });
-    });
-
-    describe('Same url', () => {
-
-      var existingUrl = 'https://facebook.com';
-      var existingId = 'a1b2c3';
-
-      before(done => {
-        models.Url.insert(existingUrl, existingId, done);
-      });
-
-      it('responds with the same short url if already shortened', (done) => {
-        request(app)
-          .post('/url')
-          .send({
-            url: existingUrl
-          })
-          .expect(200)
-          .end((e, res) => {
-            expect(e).to.not.exist;
-            var page = res.text;
-            expect(page).to.contain(existingId);
-            done();
-          });
-      });
-
     });
 
   });

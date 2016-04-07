@@ -9,6 +9,7 @@ if (!NODE_ENV) {
 }
 
 app.errors = require('./app/lib/errors');
+require('./app/lib/config')(app);
 require('./app/lib/express')(app);
 app.set('models', require('./app/models')(app));
 app.set('controllers', require('./app/controllers')(app));

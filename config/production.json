@@ -5,5 +5,13 @@
   "admin": {
     "username": "philmod",
     "password": "f235924b7c314c596cdb498e3a7e3b2b"
+  },
+  "aws": {
+    "accessKeyId": "",
+    "secretAccessKey": "",
+    "region": "us-east-1"
+  },
+  "database": {
+    "tableName": "urls"
   }
 }

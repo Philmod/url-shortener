@@ -2,8 +2,13 @@ var app = require('../index');
 var expect = require('chai').expect;
 var request = require('supertest');
 var models = app.set('models');
+const utils = require('../test/utils.js');
 
 describe('admin.routes.test.js', () => {
+
+  before(done => {
+    utils.cleanAllUrlsTable(done);
+  });
 
   describe('GET /login', () => {
 

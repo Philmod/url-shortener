@@ -13,7 +13,7 @@
     "region": "us-east-1"
   },
   "database": {
-    "tableName": "urls",
+    "tableName": "urls_test",
     "endpoint": "http://localhost:8000"
   }
 }

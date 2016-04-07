@@ -24,9 +24,13 @@
             <tbody>
               {{#each urls}}
                 <tr>
-                  <td>{{this.shortUrl}}</td>
-                  <td>{{this.fullUrl}}</td>
-                  <td>{{this.views}}</td>
+                  <td>
+                    <a href={{this.shortUrl}}>{{this.shortUrl}}</a>
+                  </td>
+                  <td>
+                    <a href={{this.fullUrl}}>{{this.fullUrl}}</a>
+                  </td>
+                  <td>{{this.viewCount}}</td>
                 </tr>
               {{/each}}
             </tbody>

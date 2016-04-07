@@ -11,5 +11,7 @@ module.exports = (err, req, res, next) => {
     return next(err);
   }
 
+  console.log('ERROR : ', err.code, err, err.stack)
+
   res.status(err.code).send({error: err});
 };
