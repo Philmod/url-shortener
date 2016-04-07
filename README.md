@@ -88,6 +88,7 @@ Or just go to the admin page.
 + API: get information about an url [POST /api/urls/:id]
 + API: get all urls information [GET /api/urls]
 + Circle CI
++ Make the admin session persistent and available across many servers/thread (Redis)
 
 ## Debates
 ### Unique short url by full url
@@ -126,7 +127,6 @@ A bloom filter would be probably good to faster this process.
 
 ## Todo
 - Deploy a live demo on AWS
-- Make the admin session persistent and available across many servers/thread (Redis)
 - Logout
 - Docker
 - API: restrict the getAll urls with the username/password
