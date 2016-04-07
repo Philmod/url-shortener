@@ -31,8 +31,8 @@ module.exports = app => {
   const _insertFullUrl = (url, callback) => {
     getRandomUniqueId((err, id) => {
       if (err) return callback(err);
-      var shortUrl = urlLib.constructShortUrl(id);
-      Url.insert(url, id, (err) => {
+      Url.insert(url, id, (err, id) => {
+        var shortUrl = urlLib.constructShortUrl(id);
         callback(err, shortUrl);
       });
     });

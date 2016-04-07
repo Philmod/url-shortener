@@ -40,6 +40,32 @@ describe('urls.routes.test.js', () => {
         });
     });
 
+    describe('Same url', () => {
+
+      var existingUrl = 'https://facebook.com';
+      var existingId = 'a1b2c3';
+
+      before(done => {
+        models.Url.insert(existingUrl, existingId, done);
+      });
+
+      it('responds with the same short url if already shortened', (done) => {
+        request(app)
+          .post('/url')
+          .send({
+            url: existingUrl
+          })
+          .expect(200)
+          .end((e, res) => {
+            expect(e).to.not.exist;
+            var page = res.text;
+            expect(page).to.contain(existingId);
+            done();
+          });
+      });
+
+    });
+
   });
 
   describe('GET /:id', () => {
