@@ -3,6 +3,12 @@ const _ = require('lodash');
 
 module.exports = {
 
+  /**
+   * Unwrap a document from DynamoDB.
+   *
+   * @param {Object} doc DynamoDB document
+   * @return {Object} Javascript Object.
+   */
   unwrapDocument: (doc) => {
     if (!doc) return;
     var obj = {};
@@ -14,6 +20,14 @@ module.exports = {
     return obj;
   },
 
+  /**
+   * Wrap an js object into a DynamoDB document
+   * specifying the type for each property.
+   *
+   * @param {Object} obj Javascript Object
+   * @param {Object} model Properties types
+   * @return {Object} DynamoDB document
+   */
   wrapObject: (obj, model) => {
     if (!obj) return;
     var doc = {};

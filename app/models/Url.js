@@ -47,7 +47,11 @@ module.exports = app => {
   var idToUrl = new Cache();
 
   /**
-   * Insert into Database.
+   * Insert a new url / id pair in the database.
+   *
+   * @param {String} url
+   * @param {String} id
+   * @return {Function} Callback function
    */
   const insert = (url, id, callback) => {
     if (idToUrl[id]) {
@@ -76,6 +80,8 @@ module.exports = app => {
 
   /**
    * Get a unique id.
+   *
+   * @return {Function} Callback function
    */
   const getRandomUniqueId = callback => {
     var id = uuid.v1().substr(0, NB_CHAR);
@@ -87,8 +93,11 @@ module.exports = app => {
   }
 
   /**
-   * Get a unique id and insert.
-   */
+    * Get a unique id and insert in the database.
+    *
+    * @param {String} url
+    * @return {Function} Callback function
+    */
   const shortenAndInsert = (url, callback) => {
     getRandomUniqueId((err, id) => {
       if (err) return callback(err);
@@ -100,12 +109,16 @@ module.exports = app => {
   }
 
   /**
-   * Get item by id.
-   */
+    * Get item by id.
+    *
+    * @param {String} id
+    * @return {Function} Callback function
+    */
   const getById = (id, callback) => {
     var local = idToUrl.get(id);
     if (local) return callback(null, local);
 
+    // Dynamo object
     var params = _.extend(_.cloneDeep(dynamoParams), {
       KeyConditionExpression: "id = :v1",
       ExpressionAttributeValues: {
@@ -126,33 +139,40 @@ module.exports = app => {
   }
 
   /**
-   * Get all items.
-   */
+    * Get all items.
+    *
+    * @return {Function} Callback function
+    */
   const getAll = (callback) => {
     var items = [];
 
     function onScan(err, data) {
-        if (err) return callback(err);
-        else {
-            data.Items.forEach(function(item) {
-               items.push(dynamoLib.unwrapDocument(item));
-            });
+      if (err) return callback(err);
+      else {
+        // Store the new retrieved items.
+        data.Items.forEach(function(item) {
+         items.push(dynamoLib.unwrapDocument(item));
+        });
 
-            // continue scanning if there are more.
-            if (typeof data.LastEvaluatedKey != "undefined") {
-                params.ExclusiveStartKey = data.LastEvaluatedKey;
-                app.dynamodb.scan(dynamoParams, onScan);
-            } else {
-              return callback(null, items);
-            }
+        // Continue scanning if there are more.
+        if (typeof data.LastEvaluatedKey != "undefined") {
+          params.ExclusiveStartKey = data.LastEvaluatedKey;
+          app.dynamodb.scan(dynamoParams, onScan);
+        } else {
+          return callback(null, items);
         }
+      }
     }
     app.dynamodb.scan(dynamoParams, onScan);
   }
 
   /**
-   * Increment the number of view of a shortened url by n.
-   */
+    * Increment the number of view of a shortened url (id) by n.
+    *
+    * @param {String} id
+    * @param {Number} n
+    * @return {Function} Callback function
+    */
   const incrementView = (id, n, callback) => {
     var params = _.extend(_.cloneDeep(dynamoParams), {
       Key: {

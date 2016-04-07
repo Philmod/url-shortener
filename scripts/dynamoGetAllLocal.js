@@ -9,20 +9,20 @@ console.log("Scanning " + config.database.tableName + " table.");
 dynamodb.scan(params, onScan);
 
 function onScan(err, data) {
-    if (err) {
-        console.error("Unable to scan the table. Error JSON:", JSON.stringify(err, null, 2));
-    } else {
-        // print all the movies
-        console.log("Scan succeeded.");
-        data.Items.forEach(function(item) {
-           console.log(item);
-        });
+  if (err) {
+      console.error("Unable to scan the table. Error JSON:", JSON.stringify(err, null, 2));
+  } else {
+    // Print the retrieved items.
+    console.log("Scan succeeded.");
+    data.Items.forEach(function(item) {
+     console.log(item);
+    });
 
-        // continue scanning if we have more movies
-        if (typeof data.LastEvaluatedKey != "undefined") {
-            console.log("Scanning for more...");
-            params.ExclusiveStartKey = data.LastEvaluatedKey;
-            dynamodb.scan(params, onScan);
-        }
+    // Continue scanning if we have more movies
+    if (typeof data.LastEvaluatedKey != "undefined") {
+      console.log("Scanning for more...");
+      params.ExclusiveStartKey = data.LastEvaluatedKey;
+      dynamodb.scan(params, onScan);
     }
+  }
 }

@@ -7,6 +7,9 @@ module.exports = (app) => {
   const models = app.set('models');
   const Url = models.Url;
 
+  /**
+   * Return the admin page.
+   */
   const index = (req, res, next) => {
     Url.getAll((err, urls) => {
       res.render('admin.hbs', {
@@ -15,10 +18,17 @@ module.exports = (app) => {
     });
   }
 
+  /**
+   * Return the login page.
+   */
   const login = (req, res, next) => {
     res.render('login.hbs');
   }
 
+  /**
+   * Check the login information submitted.
+   * Redirect to admin if success.
+   */
   const loginSubmitted = (req, res, next) => {
     const username = req.body.username;
     const password = req.body.password;
@@ -33,6 +43,9 @@ module.exports = (app) => {
     }
   }
 
+  /**
+   * Check if the request has an identified session.
+   */
   const checkAuth = (req, res, next) => {
     if (!req.session.user) {
       res.redirect('/login');
@@ -41,6 +54,9 @@ module.exports = (app) => {
     }
   }
 
+  /**
+   * Basic authentification check.
+   */
   const basicAuth = (req, res, next) => {
     var user = auth(req);
     if (!user
