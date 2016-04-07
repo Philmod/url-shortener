@@ -1,22 +1,17 @@
-dependencies:
-  cache_directories:
-    - "~/DynamoDBLocal"
-  post:
-    - "[ -d ~/DynamoDBLocal ] || (mkdir ~/DynamoDBLocal; cd ~/DynamoDBLocal; curl -s -L http://dynamodb-local.s3-website-us-west-2.amazonaws.com/dynamodb_local_latest.tar.gz | tar xz)"
-test:
-  pre:
-    - "java -Xms1024m -Xmx1024m -Djava.library.path=~/DynamoDBLocal/DynamoDBLocal_lib -jar ~/DynamoDBLocal/DynamoDBLocal.jar &"
-    - npm run dynamo:createLocalTable
 machine:
   post:
     - npm install mocha@2.4.5 -g
   node:
     version: 5.1.0
+  environment:
+    NODE_ENV: test
 test:
   override:
     - npm run circleci
-deployment:
-  staging:
-    branch: staging
-    heroku:
-      appname: opencollective-staging-api
+dependencies:
+  cache_directories:
+    - "~/DynamoDBLocal"
+  post:
+    - "[ -d ~/DynamoDBLocal ] || (mkdir ~/DynamoDBLocal; cd ~/DynamoDBLocal; curl -s -L http://dynamodb-local.s3-website-us-west-2.amazonaws.com/dynamodb_local_latest.tar.gz | tar xz)"
+    - "java -Xms1024m -Xmx1024m -Djava.library.path=~/DynamoDBLocal/DynamoDBLocal_lib -jar ~/DynamoDBLocal/DynamoDBLocal.jar &"
+    - npm run dynamo:createLocalTable
