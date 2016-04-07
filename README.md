@@ -41,6 +41,10 @@ The tests are under `./test/`.
 ```
 brew install dynamodb-local
 ```
+- Install Redis locally
+```
+brew install redis
+```
 - Install Node.js and NPM, by downloading and installing from https://nodejs.org/en/
 - Install Node.js modules for this project
 ```
