@@ -1,3 +1,4 @@
+const auth = require('basic-auth');
 const config = require('config');
 
 module.exports = (app) => {
@@ -32,9 +33,20 @@ module.exports = (app) => {
     }
   }
 
-  const basicAuth = (req, res, next) => {
+  const checkAuth = (req, res, next) => {
     if (!req.session.user) {
       res.redirect('/login');
+    } else {
+      next();
+    }
+  }
+
+  const basicAuth = (req, res, next) => {
+    var user = auth(req);
+    if (!user
+      || user.name !== config.admin.username
+      || user.pass !== config.admin.password) {
+      next(new errors.Unauthorized('The username and password do not match.'));
     } else {
       next();
     }
@@ -44,6 +56,7 @@ module.exports = (app) => {
     index: index,
     login: login,
     loginSubmitted: loginSubmitted,
+    checkAuth: checkAuth,
     basicAuth: basicAuth,
   }
 
