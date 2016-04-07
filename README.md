@@ -1,7 +1,7 @@
 # url-shortener
 Webserver to shorten url and redirect pages
 
-[![Circle CI](https://circleci.com/gh/Philmod/url-shortener.svg?style=svg)](https://circleci.com/gh/Philmod/url-shortener)
+![Circle CI](https://circleci.com/gh/Philmod/url-shortener.svg?style=svg&circle-token=a9fd81d770ffa424af792fc21a375c4b0f253e7b)
 
 ## How does that work?
 ### Overview of the service
