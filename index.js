@@ -19,7 +19,7 @@ if (app.set('env') !== 'test' && app.set('env') !== 'circleci') {
   // Start server
  const port = config.port;
   const server = app.listen(port, () => {
-    console.log('url-shortener listening at http://localhost:%s in %s environment.', server.address().port, app.set('env'));
+    console.log('url-shortener listening at http://localhost:%s in %s environment (node %s).', server.address().port, app.set('env'), process.version);
   });
 }
 
