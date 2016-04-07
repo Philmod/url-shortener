@@ -44,10 +44,6 @@ brew install dynamodb-local
 ```
 npm install
 ```
-- Create table in local dynamodb
-```
-npm run dynamo:createLocalTable
-```
 
 ## Tests
 The tests are using a local dynamodb table for now in order to make sure everything is working perfectly with the database.
@@ -59,7 +55,7 @@ npm test
 
 ## Run server
 ```
-npm start
+npm run dev
 ```
 And visit `http://localhost:3070`
 

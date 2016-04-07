@@ -35,7 +35,8 @@
   "scripts": {
     "test": "NODE_ENV=test npm run hint && NODE_ENV=test mocha test",
     "circleci": "NODE_ENV=test npm run hint && mocha --reporter mocha-circleci-reporter --reporter-options mochaFile=$CIRCLE_TEST_REPORTS/junit/junit.xml test",
-    "start": "npm run hint && node_modules/forever/bin/forever .",
+    "dev": "npm run hint && npm run dynamo:createLocalTable && node_modules/forever/bin/forever .",
+    "start": "node_modules/forever/bin/forever .",
     "hint": "eslint '**/*.js' --quiet",
     "dynamo:createLocalTable": "node scripts/dynamoCreateLocalTable.js",
     "dynamo:deleteLocalTable": "node scripts/dynamoDeleteLocalTable.js",
