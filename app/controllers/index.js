@@ -3,6 +3,7 @@ module.exports = app => {
   var cs = {};
   var controllers = [
     'admin',
+    'api',
     'urls',
   ];
 

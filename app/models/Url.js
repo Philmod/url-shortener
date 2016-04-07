@@ -1,5 +1,5 @@
 'use strict';
-
+const uuid = require('node-uuid');
 const config = require('config');
 const urlLib = require('../lib/url');
 const dynamoLib = require('../lib/dynamo');
@@ -65,6 +65,31 @@ module.exports = app => {
         }
       });
     }
+  }
+
+  /**
+   * Get a unique id.
+   */
+  const getRandomUniqueId = callback => {
+    var id = uuid.v1().substr(0, 6);
+    getById(id, (err, url) => {
+      if (err) return callback(err);
+      if (!url) return callback(null, id);
+      else return getRandomUniqueId(callback);
+    });
+  }
+
+  /**
+   * Get a unique id and insert.
+   */
+  const shortenAndInsert = (url, callback) => {
+    getRandomUniqueId((err, id) => {
+      if (err) return callback(err);
+      insert(url, id, (err, id) => {
+        var shortUrl = urlLib.constructShortUrl(id);
+        callback(err, shortUrl);
+      });
+    });
   }
 
   /**
@@ -146,6 +171,7 @@ module.exports = app => {
 
   return {
     insert: insert,
+    shortenAndInsert: shortenAndInsert,
     getById: getById,
     getAll: getAll,
     incrementView: incrementView,

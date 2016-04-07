@@ -9,6 +9,7 @@ module.exports = (app) => {
   const Controllers = app.set('controllers');
   const urls = Controllers.urls;
   const admin = Controllers.admin;
+  const api = Controllers.api;
 
   /**
    * Status.
@@ -27,6 +28,13 @@ module.exports = (app) => {
   app.get('/login', admin.login);
   app.post('/login', admin.loginSubmitted);
   app.get('/admin', admin.basicAuth, admin.index);
+
+  /**
+   * API.
+   */
+  app.post('/api/urls', api.shortenUrl);
+  app.get('/api/urls/:id', api.getById);
+  app.get('/api/urls', api.getAll);
 
   /**
    * Redirect.

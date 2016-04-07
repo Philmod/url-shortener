@@ -46,6 +46,9 @@ Or just go to the admin page.
 + Admin page with the list of all shortened [GET /admin]
 + Change the local memory into a persistent one (DynamoDB)
 + Local cache in front of the database
++ API: shorten an url [POST /api/urls]
++ API: get information about an url [POST /api/urls/:id]
++ API: get all urls information [GET /api/urls]
 
 ## Debates
 ### Unique short url by full url
@@ -55,9 +58,6 @@ Otherwise, the code should check if a key has already been associated to that ur
 Another question is : "What about http:// vs https://"? Do they have a different short url?
 
 ## Todo
-- API: shorten an url [POST /api/urls]
-- API: get information about an url [POST /api/urls/:id]
-- API: get all urls information [GET /api/urls]
 - Lock to avoid having the same url submitted at the same time
 - Make the admin session persistent and available for many servers/thread (redis)
 - Logout
@@ -69,3 +69,4 @@ Another question is : "What about http:// vs https://"? Do they have a different
 - Use a Bloom Filter to check for the existence of a given id
 - Buffer the incrementView calls (Redis), and so update one entry once for many views
 - Stub the database's client for the tests
+- Deal with DynamoDB's throughput limits
