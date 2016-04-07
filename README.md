@@ -93,11 +93,12 @@ Otherwise, the code should check if a key has already been associated to that ur
 Another open question would be : "What about `http://` vs `https://`"? Do they have a different short url?
 
 ## Todo
+- Circle CI
+- Deploy a live demo on AWS
 - Make the admin session persistent and available across many servers/thread (Redis)
 - Logout
-- Circle CI
 - Docker
-- Add a expire option
+- API: restrict the getAll urls with the username/password
 - Paginate the admin page, not to show all the urls
 - If the service is very popular, and there is no more free unique id, increase the number of characters required for an id
 - Right now, a new id is created randomly; it will take more and more time when the free space will reduce
@@ -105,3 +106,4 @@ Another open question would be : "What about `http://` vs `https://`"? Do they h
 - Buffer the incrementView calls (Redis), and so update one entry once for many views
 - Stub the database's client for the tests
 - Deal with DynamoDB's throughput limits
+- Add a expire option
