@@ -81,6 +81,7 @@ Or just go to the admin page.
 + API: shorten an url [POST /api/urls]
 + API: get information about an url [POST /api/urls/:id]
 + API: get all urls information [GET /api/urls]
++ Circle CI
 
 ## Debates
 ### Unique short url by full url
@@ -93,7 +94,6 @@ Otherwise, the code should check if a key has already been associated to that ur
 Another open question would be : "What about `http://` vs `https://`"? Do they have a different short url?
 
 ## Todo
-- Circle CI
 - Deploy a live demo on AWS
 - Make the admin session persistent and available across many servers/thread (Redis)
 - Logout

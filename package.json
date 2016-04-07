@@ -27,11 +27,12 @@
     "chai": "*",
     "eslint": "^1.9.0",
     "mocha": "^2.4.5",
+    "mocha-circleci-reporter": "0.0.1",
     "supertest": ""
   },
   "scripts": {
     "test": "NODE_ENV=test npm run hint && NODE_ENV=test mocha test",
-    "circleci": "NODE_ENV=circleci npm run hint && mocha --reporter mocha-circleci-reporter --reporter-options mochaFile=$CIRCLE_TEST_REPORTS/junit/junit.xml test",
+    "circleci": "NODE_ENV=test npm run hint && mocha --reporter mocha-circleci-reporter --reporter-options mochaFile=$CIRCLE_TEST_REPORTS/junit/junit.xml test",
     "start": "npm run hint && node .",
     "hint": "eslint '**/*.js' --quiet",
     "dynamo:createLocalTable": "node scripts/dynamoCreateLocalTable.js",

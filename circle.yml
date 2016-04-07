@@ -1,0 +1,19 @@
+machine:
+  post:
+    - npm install mocha@2.4.5 -g
+  node:
+    version: 5.1.0
+  environment:
+    NODE_ENV: test
+test:
+  override:
+    - npm run circleci
+  pre:
+    - npm run dynamo:createLocalTable
+dependencies:
+  cache_directories:
+    - "~/DynamoDBLocal"
+  pre:
+    - "[ -d ~/DynamoDBLocal ] || (mkdir ~/DynamoDBLocal; cd ~/DynamoDBLocal; curl -s -L http://dynamodb-local.s3-website-us-west-2.amazonaws.com/dynamodb_local_latest.tar.gz | tar xz)"
+  post:
+    - "java -Xms1024m -Xmx1024m -Djava.library.path=~/DynamoDBLocal/DynamoDBLocal_lib -jar ~/DynamoDBLocal/DynamoDBLocal.jar ": {background: true}
