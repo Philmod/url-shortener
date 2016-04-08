@@ -7,8 +7,8 @@
     "password": "password"
   },
   "aws": {
-    "accessKeyId": "",
-    "secretAccessKey": "",
+    "accessKeyId": "accessKeyId",
+    "secretAccessKey": "secretAccessKey",
     "region": "us-east-1"
   },
   "database": {
