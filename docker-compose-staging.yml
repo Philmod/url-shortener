@@ -15,7 +15,7 @@ redis:
 url-shortener:
   image: philmod/url-shortener
   ports:
-    - "3080:3070"
+    - "80:3070"
   links:
     - dynamodb
     - redis
