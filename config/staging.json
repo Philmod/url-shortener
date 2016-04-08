@@ -1,0 +1,21 @@
+{
+  "protocol": "http",
+  "domain": "54.86.216.66",
+  "secret": "9143cbcfe975d30c1c601a6ref52940b",
+  "admin": {
+    "username": "admin",
+    "password": "password"
+  },
+  "aws": {
+    "accessKeyId": "",
+    "secretAccessKey": "",
+    "region": "us-east-1"
+  },
+  "database": {
+    "tableName": "urls"
+  },
+  "redis": {
+    "host": "localhost",
+    "port": 6379
+  }
+}
