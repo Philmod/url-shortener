@@ -1,6 +1,6 @@
 {
   "protocol": "http",
-  "domain": "localhost",
+  "domain": "localhost.url.canary.is",
   "port": 3070,
   "secret": "supersecret",
   "admin": {

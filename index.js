@@ -18,23 +18,13 @@ app.set('models', require('./app/models')(app));
 app.set('controllers', require('./app/controllers')(app));
 require('./app/routes')(app);
 
-
-///// TEMP /////
-require('lodash').forOwn(process.env, (value, key) => {
-  if (key.indexOf('npm') == -1) {
-      console.log('ENV variable: ', key, value);
-  }
-});
-////////////////
-
-
 /**
  * Start server if not test environment.
  */
 if (app.set('env') !== 'test' && app.set('env') !== 'circleci') {
  const port = config.port;
   const server = app.listen(port, () => {
-    console.log('url-shortener listening at http://localhost:%s in %s environment (node %s).', server.address().port, app.set('env'), process.version);
+    console.log('url-shortener listening at http://%s:%s in %s environment (node %s).', config.domain, server.address().port, app.set('env'), process.version);
   });
 }
 
