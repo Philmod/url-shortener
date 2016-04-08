@@ -30,6 +30,8 @@ When a new url is submitted to the service, it creates randomly a unique `id` of
 The **sessions**, used for keeping track of logged-in users, are local to the server/thread. That means that a user has to re-login after a server restart. Worse, that would be a big issue if we put this service behind a load balancer, with many instances. In that case, we would need to use Redis as a common store for the sessions.
 
 ### Structure of the directories
+The routes can be found in `./app/routes.js`.
+
 The configurations for various environments can be found in `./config/`.
 
 The controllers, models, views and others small libraries can be found under `./app/`.
@@ -37,6 +39,19 @@ The controllers, models, views and others small libraries can be found under `./
 The tests are under `./test/`.
 
 ## Install
+
+### Docker
+- Install docker
+- Add the docker local ip to /etc/hosts:
+```
+echo $(docker-machine ip default | xargs echo) $(echo "localhost.url.canary.is") | sudo tee -a /etc/hosts
+```
+- Run:
+```
+docker-compose up
+```
+
+### Manual Install
 - Install dynamodb locally
 ```
 brew install dynamodb-local
@@ -90,6 +105,7 @@ Or just go to the admin page.
 + Circle CI
 + Make the admin session persistent and available across many servers/thread (Redis)
 + API: restrict the getAll urls with the username/password
++ Docker
 
 ## Debates
 ### Unique short url by full url
@@ -129,7 +145,6 @@ A bloom filter would be probably good to faster this process.
 ## Todo
 - Deploy a live demo on AWS
 - Logout
-- Docker
 - Paginate the admin page, not to show all the urls
 - If the service is very popular, and there is no more free unique id, increase the number of characters required for an id
 - Right now, a new id is created randomly; it will take more and more time when the free space will reduce
