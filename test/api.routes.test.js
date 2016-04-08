@@ -32,6 +32,32 @@ describe('api.routes.test.js', () => {
         });
     });
 
+    describe('Same Url', () => {
+
+      const url = 'https://hello-belgium.com';
+      const id = 'belg1';
+
+      beforeEach(done => {
+        models.Url.insert(url, id, done);
+      });
+
+      it('successfully uses the same id for a same url', (done) => {
+        request(app)
+          .post('/api/urls')
+          .send({
+            url: url
+          })
+          .expect(200)
+          .end((e, res) => {
+            expect(e).to.not.exist;
+            var shortUrl = res.text;
+            expect(shortUrl).to.contain(id);
+            done();
+          });
+      });
+
+    });
+
   });
 
   describe('GET /api/urls/:id', () => {
