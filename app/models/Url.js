@@ -120,18 +120,16 @@ module.exports = app => {
 
     // Dynamo object
     var params = _.extend(_.cloneDeep(dynamoParams), {
-      KeyConditionExpression: "id = :v1",
-      ExpressionAttributeValues: {
-        ":v1": {S: id}
+      Key: {
+        id: {S: id}
       },
-      Limit: 1,
       ConsistentRead: true
     });
 
-    app.dynamodb.query(params, (err, data) => {
+    app.dynamodb.getItem(params, (err, data) => {
       if (err) return callback(err);
       else {
-        var item = dynamoLib.unwrapDocument(data.Items[0]);
+        var item = dynamoLib.unwrapDocument(data.Item);
         idToUrl.set(id, item);
         return callback(null, item);
       }
