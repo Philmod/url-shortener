@@ -34,7 +34,7 @@ module.exports = function(app) {
   app.use(cors());
 
   // Logs.
-  app.use(morgan('dev'));
+  app.use(morgan(config.logger));
 
   // Error handling.
   app.use(errorhandler());

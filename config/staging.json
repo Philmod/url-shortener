@@ -2,6 +2,7 @@
   "protocol": "http",
   "domain": "54.86.216.66",
   "port": "",
+  "logger": ":date[iso] :status :method :url :response-time ms - :res[content-length] - :remote-addr - :remote-user",
   "secret": "9143cbcfe975d30c1c601a6ref52940b",
   "admin": {
     "username": "admin",

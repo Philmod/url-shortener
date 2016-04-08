@@ -2,6 +2,7 @@
   "protocol": "http",
   "domain": "localhost",
   "port": 3070,
+  "logger": "dev",
   "secret": "supersecret",
   "admin": {
     "username": "admin",

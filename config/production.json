@@ -1,6 +1,7 @@
 {
   "protocol": "https",
   "domain": "url.canary.is",
+  "logger": ":date[iso] :status :method :url :response-time ms - :res[content-length] - :remote-addr - :remote-user",
   "secret": "9143cbcfe975d30c1c601a6adf52940b",
   "admin": {
     "username": "philmod",
