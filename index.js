@@ -24,7 +24,7 @@ require('./app/routes')(app);
 if (app.set('env') !== 'test' && app.set('env') !== 'circleci') {
  const port = config.port;
   const server = app.listen(port, () => {
-    console.log('url-shortener listening at http://localhost:%s in %s environment.', server.address().port, app.set('env'));
+    console.log('url-shortener listening at http://%s:%s in %s environment (node %s).', config.domain, server.address().port, app.set('env'), process.version);
   });
 }
 

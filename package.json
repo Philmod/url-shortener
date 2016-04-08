@@ -21,6 +21,7 @@
     "express-handlebars": "^3.0.0",
     "express-server-status": "*",
     "express-session": "^1.13.0",
+    "forever": "^0.15.1",
     "lodash": "^3.6.0",
     "morgan": "^1.7.0",
     "node-uuid": "^1.4.7",
@@ -36,7 +37,8 @@
   "scripts": {
     "test": "NODE_ENV=test npm run hint && NODE_ENV=test mocha test",
     "circleci": "NODE_ENV=test npm run hint && mocha --reporter mocha-circleci-reporter --reporter-options mochaFile=$CIRCLE_TEST_REPORTS/junit/junit.xml test",
-    "start": "npm run hint && node .",
+    "dev": "npm run hint && npm run dynamo:createLocalTable && node_modules/forever/bin/forever .",
+    "start": "node_modules/forever/bin/forever .",
     "hint": "eslint '**/*.js' --quiet",
     "dynamo:createLocalTable": "node scripts/dynamoCreateLocalTable.js",
     "dynamo:deleteLocalTable": "node scripts/dynamoDeleteLocalTable.js",
