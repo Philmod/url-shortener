@@ -1,6 +1,7 @@
 {
   "protocol": "http",
   "domain": "54.86.216.66",
+  "port": "",
   "secret": "9143cbcfe975d30c1c601a6ref52940b",
   "admin": {
     "username": "admin",
