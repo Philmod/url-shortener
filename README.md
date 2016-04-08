@@ -154,3 +154,4 @@ A bloom filter would be probably good to faster this process.
 - Stub the database's client for the tests
 - Deal with DynamoDB's throughput limits
 - Add a expire option
+- Avoid loops: short url of short url

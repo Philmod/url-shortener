@@ -42,6 +42,7 @@
     "hint": "eslint '**/*.js' --quiet",
     "dynamo:createLocalTable": "node scripts/dynamoCreateLocalTable.js",
     "dynamo:deleteLocalTable": "node scripts/dynamoDeleteLocalTable.js",
-    "dynamo:getAllLocalData": "node scripts/dynamoGetAllLocal.js"
+    "dynamo:getAllLocalData": "node scripts/dynamoGetAllLocal.js",
+    "deploy:staging": "./deploy/rundeploy.sh"
   }
 }
