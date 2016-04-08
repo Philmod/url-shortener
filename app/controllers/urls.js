@@ -35,7 +35,7 @@ module.exports = app => {
   const redirect = (req, res, next) => {
     var id = req.params.id;
     Url.getById(id, (err, url) => {
-      if (err) return callback(err);
+      if (err) return next(err);
       if (!url) return next(new errors.NotFound('This short url does not exist'));
       else {
         Url.incrementView(id, 1); // Async

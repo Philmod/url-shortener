@@ -3,7 +3,11 @@ module.exports = () => {
   const AWS = require('aws-sdk');
 
   AWS.config.update(config.get('aws'));
-  const dynamodb = new AWS.DynamoDB({ endpoint: new AWS.Endpoint('http://localhost:8000') });
+  var dynamoAddr = process.env.DYNAMODB_PORT_8000_TCP_ADDR;
+  var options = {
+    endpoint: (dynamoAddr) ? ['http://', dynamoAddr, ':8000'].join('') : config.database.endpoint
+  };
+  const dynamodb = new AWS.DynamoDB(options);
 
   return dynamodb;
 }

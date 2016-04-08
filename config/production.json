@@ -1,14 +1,14 @@
 {
   "protocol": "https",
-  "domain": "url-shortner.canary.is",
+  "domain": "url.canary.is",
   "secret": "9143cbcfe975d30c1c601a6adf52940b",
   "admin": {
     "username": "philmod",
     "password": "f235924b7c314c596cdb498e3a7e3b2b"
   },
   "aws": {
-    "accessKeyId": "",
-    "secretAccessKey": "",
+    "accessKeyId": "AKIAIH4Q423JMLTC74DQ",
+    "secretAccessKey": "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",
     "region": "us-east-1"
   },
   "database": {

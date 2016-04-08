@@ -31,6 +31,8 @@ When a new url is submitted to the service, it creates randomly a unique `id` of
 The **sessions**, used for keeping track of logged-in users, are local to the server/thread. That means that a user has to re-login after a server restart. Worse, that would be a big issue if we put this service behind a load balancer, with many instances. In that case, we would need to use Redis as a common store for the sessions.
 
 ### Structure of the directories
+The routes can be found in `./app/routes.js`.
+
 The configurations for various environments can be found in `./config/`.
 
 The controllers, models, views and others small libraries can be found under `./app/`.
@@ -64,10 +66,6 @@ brew install redis
 ```
 npm install
 ```
-- Create table in local dynamodb
-```
-npm run dynamo:createLocalTable
-```
 
 ## Tests
 The tests are using a local dynamodb table for now in order to make sure everything is working perfectly with the database.
@@ -83,7 +81,7 @@ It could be used to deploy automatically a staging version for testing.
 
 ## Run server
 ```
-npm start
+npm run dev
 ```
 And visit `http://localhost:3070`
 
@@ -148,7 +146,6 @@ A bloom filter would be probably good to faster this process.
 
 ## Todo
 - Logout
-- Docker
 - Paginate the admin page, not to show all the urls
 - If the service is very popular, and there is no more free unique id, increase the number of characters required for an id
 - Right now, a new id is created randomly; it will take more and more time when the free space will reduce
