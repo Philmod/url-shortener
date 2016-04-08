@@ -2,7 +2,7 @@ dynamodb:
   image: ryanratcliff/dynamodb
   restart: always
   volumes:
-    - /var/dynamodb_data:/var/dynamodb_local
+    - /var/dynamodb_data:/var/dynamodb_data
   ports:
     - "8000"
 
