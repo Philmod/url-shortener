@@ -1,0 +1,25 @@
+dynamodb:
+  image: ryanratcliff/dynamodb
+  restart: always
+  volumes:
+    - /var/dynamodb_data:/var/dynamodb_data
+  ports:
+    - "8000"
+
+redis:
+  image: redis
+  restart: always
+  ports:
+    - "6379"
+
+url-shortener:
+  image: philmod/url-shortener
+  ports:
+    - "3070:3070"
+  # volumes:
+  #   - .:/usr/src/url-shortener
+  links:
+    - dynamodb
+    - redis
+  environment:
+    NODE_ENV: development

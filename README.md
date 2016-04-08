@@ -19,6 +19,7 @@ an admin page is accessible. It shows all the urls that have been shortened, and
 There is also an **API** to:
 - shorten an url: `POST /api/urls`
 - retrieve information about a shortened url: `GET /api/urls/:id`
+- retrieve information about all urls: `GET /api/urls` (need to pass credentials)
 
 ### Behind the scenes
 The web service is built on top of **Node.js** and Express.js.
@@ -37,6 +38,19 @@ The controllers, models, views and others small libraries can be found under `./
 The tests are under `./test/`.
 
 ## Install
+
+### Docker
+- Install docker
+- Add the docker local ip to /etc/hosts:
+```
+echo "$(docker-machine ip default) localhost.url.canary.is" | sudo tee -a /etc/hosts
+```
+- Run:
+```
+docker-compose up
+```
+
+### Manual Install
 - Install dynamodb locally
 ```
 brew install dynamodb-local
@@ -94,6 +108,8 @@ Or just go to the admin page.
 + Circle CI
 + Make the admin session persistent and available across many servers/thread (Redis)
 + API: restrict the getAll urls with the username/password
++ Docker
++ Deploy a live demo on AWS
 
 ## Debates
 ### Unique short url by full url
@@ -131,7 +147,6 @@ The problem is more the way we randomly choose a new id, check in the database i
 A bloom filter would be probably good to faster this process.
 
 ## Todo
-- Deploy a live demo on AWS
 - Logout
 - Docker
 - Paginate the admin page, not to show all the urls
