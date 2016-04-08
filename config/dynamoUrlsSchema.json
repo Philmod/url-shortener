@@ -3,6 +3,10 @@
     {
       "AttributeName": "id",
       "AttributeType": "S"
+    },
+    {
+      "AttributeName": "fullUrl",
+      "AttributeType": "S"
     }
   ],
   "KeySchema": [
@@ -15,5 +19,23 @@
     "ReadCapacityUnits": 1,
     "WriteCapacityUnits": 1
   },
-  "TableName": ""
+  "TableName": "",
+  "GlobalSecondaryIndexes": [
+    {
+      "IndexName": "url",
+      "KeySchema": [
+        {
+          "AttributeName": "fullUrl",
+          "KeyType": "HASH"
+        }
+      ],
+      "Projection": {
+        "ProjectionType": "KEYS_ONLY"
+      },
+      "ProvisionedThroughput": {
+        "ReadCapacityUnits": 1,
+        "WriteCapacityUnits": 1
+      }
+    }
+  ]
 }
