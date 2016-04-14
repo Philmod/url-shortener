@@ -4,6 +4,7 @@ const config = require('config');
 const urlLib = require('../lib/url');
 const dynamoLib = require('../lib/dynamo');
 const _ = require('lodash');
+const async = require('async');
 
 const NB_CHAR = 6; // Size of the unique id
 
@@ -54,28 +55,43 @@ module.exports = app => {
    * @return {Function} Callback function
    */
   const insert = (url, id, callback) => {
-    if (idToUrl[id]) {
-      return callback(new errors.ConflictError('Collision'));
-    } else {
-      var data = {
-        id: id,
-        shortUrl: urlLib.constructShortUrl(id),
-        fullUrl: url,
-        date: new Date().toString(),
-        viewCount: 0
-      };
-      var params = _.extend(_.cloneDeep(dynamoParams), {
-        Item: dynamoLib.wrapObject(data, dynamoModel)
-      });
-
-      app.dynamodb.putItem(params, (err) => {
-        if (err) return callback(err);
-        else {
-          idToUrl.set(id, data);
-          return callback(null, id);
+    async.auto({
+      checkExistingUrl: done => {
+        getByFullUrl(url, done);
+      },
+      checkExistingId: done => {
+        if (idToUrl[id]) {
+          return done(new errors.ConflictError('Collision'));
+        } else {
+          return done();
         }
-      });
-    }
+      },
+      insertIntoDatabase: ['checkExistingUrl', 'checkExistingId', (done, results) => {
+        if (results.checkExistingUrl) {
+          return done(null, results.checkExistingUrl.id);
+        }
+        var data = {
+          id: id,
+          shortUrl: urlLib.constructShortUrl(id),
+          fullUrl: url,
+          date: new Date().toString(),
+          viewCount: 0
+        };
+        var params = _.extend(_.cloneDeep(dynamoParams), {
+          Item: dynamoLib.wrapObject(data, dynamoModel)
+        });
+
+        app.dynamodb.putItem(params, (err) => {
+          if (err) return done(err);
+          else {
+            idToUrl.set(id, data);
+            return done(null, id);
+          }
+        });
+      }]
+    }, function(err, results) {
+      callback(err, results.insertIntoDatabase);
+    });
   }
 
   /**
@@ -120,19 +136,43 @@ module.exports = app => {
 
     // Dynamo object
     var params = _.extend(_.cloneDeep(dynamoParams), {
-      KeyConditionExpression: "id = :v1",
-      ExpressionAttributeValues: {
-        ":v1": {S: id}
+      Key: {
+        id: {S: id}
       },
-      Limit: 1,
       ConsistentRead: true
+    });
+
+    app.dynamodb.getItem(params, (err, data) => {
+      if (err) return callback(err);
+      else {
+        var item = dynamoLib.unwrapDocument(data.Item);
+        idToUrl.set(id, item);
+        return callback(null, item);
+      }
+    });
+  }
+
+  /**
+    * Get item by full url.
+    *
+    * @param {String} url
+    * @return {Function} Callback function
+    */
+  const getByFullUrl = (fullUrl, callback) => {
+    // Dynamo object
+    var params = _.extend(_.cloneDeep(dynamoParams), {
+      IndexName: "url",
+      KeyConditionExpression: "fullUrl = :url",
+      ExpressionAttributeValues: {
+        ":url": {S: fullUrl}
+      },
+      Limit: 1
     });
 
     app.dynamodb.query(params, (err, data) => {
       if (err) return callback(err);
       else {
         var item = dynamoLib.unwrapDocument(data.Items[0]);
-        idToUrl.set(id, item);
         return callback(null, item);
       }
     });

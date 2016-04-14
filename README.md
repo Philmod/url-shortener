@@ -111,11 +111,9 @@ Or just go to the admin page.
 
 ## Debates
 ### Unique short url by full url
-For now, each time a same url is requested to be shorten, a new short url is created.
+If an known url is submitted, the existing id is returned.
 
-In the case of the statistics (number of views) are available for the users, they might want to know how many times THEIR short url has been used.
-
-Otherwise, the code should check if a key has already been associated to that url. But then, we would need a way to [lock](https://github.com/Philmod/node-redis-lock) the request for a specific url.
+In the case of the statistics (number of views) are available for the users, that's an issue because 2 people can share the same statistics for a same url.
 
 Another open question would be : "What about `http://` vs `https://`"? Do they have a different short url?
 

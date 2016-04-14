@@ -8,8 +8,8 @@
     "password": "f235924b7c314c596cdb498e3a7e3b2b"
   },
   "aws": {
-    "accessKeyId": "AKIAIH4Q423JMLTC74DQ",
-    "secretAccessKey": "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",
+    "accessKeyId": "",
+    "secretAccessKey": "",
     "region": "us-east-1"
   },
   "database": {
