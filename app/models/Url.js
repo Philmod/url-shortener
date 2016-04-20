@@ -5,6 +5,7 @@ const urlLib = require('../lib/url');
 const dynamoLib = require('../lib/dynamo');
 const _ = require('lodash');
 const async = require('async');
+const LRU = require("lru-cache")
 
 const NB_CHAR = 6; // Size of the unique id
 
@@ -24,13 +25,19 @@ var dynamoModel = {
  */
 class Cache {
   constructor() {
-    this.memory = {}
+    this.memory = LRU({
+      max: 500,
+      maxAge: 1000 * 60 * 60
+    });
   }
   get(id) {
-    return this.memory[id];
+    return this.memory.get(id);
   }
   set(id, data) {
-    this.memory[id] = data
+    this.memory.set(id, data);
+  }
+  reset() {
+    this.memory.reset();
   }
 }
 
@@ -233,7 +240,7 @@ module.exports = app => {
    * Clear local cache.
    */
   const clearCache = () => {
-    idToUrl = new Cache();
+    idToUrl.reset();
   }
 
   return {

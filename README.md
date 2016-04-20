@@ -143,7 +143,6 @@ The problem is more the way we randomly choose a new id, check in the database i
 A bloom filter would be probably good to faster this process.
 
 ## Todo
-- Change the local cache implementation to a LRU (to avoid memory leak)
 - Logout
 - Paginate the admin page, not to show all the urls
 - If the service is very popular, and there is no more free unique id, increase the number of characters required for an id
